@@ -23,9 +23,12 @@ export default function SideBarNav({ items, className, ...props }: Props) {
       <div className="flex flex-col space-y-3 ">
         {items.map((item) => (
           <Link
-            className={cn("rounded-md px-[10px] py-2 hover:bg-slate-100", {
-              "bg-slate-100": item.href === pathName,
-            })}
+            className={cn(
+              "rounded-md px-[10px] py-2 hover:bg-slate-100 dark:text-slate-600",
+              {
+                "bg-slate-100": item.href === pathName,
+              },
+            )}
             key={item.name}
             href={item.href}
           >

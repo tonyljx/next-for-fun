@@ -1,9 +1,30 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { ModeToggle } from "../theme-button";
+import { cn } from "@/lib/utils";
+import { usePathname } from "next/navigation";
+
+const headerItems = [
+  {
+    href: "/setting",
+    label: "Setting",
+  },
+  {
+    href: "#",
+    label: "Link1",
+  },
+];
 
 export default function Header() {
+  const pathName = usePathname();
+
+  // 提取第一级的路由
+  const firstPathName = pathName.substring(0, pathName.indexOf("/", 1));
+
+  console.log(firstPathName);
+
   return (
     <div className="mb-3 flex items-center justify-between border-b px-10 py-4">
       <Link href="/">
@@ -17,27 +38,18 @@ export default function Header() {
       </Link>
 
       <ul className="flex items-center gap-3">
-        <li>
-          <Link href="/setting" className="hover:text-indigo-400">
-            Setting
-          </Link>
-        </li>
-        <li>
-          <Link href="#" className="hover:text-indigo-400">
-            Link2
-          </Link>
-        </li>
-        <li>
-          <Link href="#" className="hover:text-indigo-400">
-            Link3
-          </Link>
-        </li>
-        <li>
-          <Link href="#" className="hover:text-indigo-400">
-            Link4
-          </Link>
-        </li>
-
+        {headerItems.map((item) => (
+          <li key={item.label}>
+            <Link
+              href={item.href}
+              className={cn("hover:text-indigo-400", {
+                "text-indigo-400": item.href === firstPathName,
+              })}
+            >
+              {item.label}
+            </Link>
+          </li>
+        ))}
         <li>
           <ModeToggle />
         </li>
