@@ -5,15 +5,12 @@ import React from "react";
 import { ModeToggle } from "../theme-button";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
+import LoginButton from "../ui-tony/LoginButton";
 
 const headerItems = [
   {
     href: "/setting",
     label: "Setting",
-  },
-  {
-    href: "#",
-    label: "Link1",
   },
 ];
 
@@ -26,7 +23,7 @@ export default function Header() {
   console.log(firstPathName);
 
   return (
-    <div className="mb-3 flex items-center justify-between border-b px-10 py-4">
+    <div className=" flex items-center justify-between border-b px-4 py-2">
       <Link href="/">
         <Image
           className="dark:invert"
@@ -52,6 +49,9 @@ export default function Header() {
         ))}
         <li>
           <ModeToggle />
+        </li>
+        <li>
+          <LoginButton />
         </li>
       </ul>
     </div>

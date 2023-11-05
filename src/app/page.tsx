@@ -1,33 +1,54 @@
 "use client";
+import ContentButton from "@/components/ui-tony/ContentButton";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  MessageSquareIcon,
+  Share2Icon,
+  ThumbsUp,
+  ThumbsUpIcon,
+} from "lucide-react";
 
 export default function Home() {
-  const [active, setActive] = useState(false);
   return (
-    <main className="flex min-h-screen flex-col px-1 py-3">
+    <main className="flex min-h-screen flex-col space-y-3 bg-slate-100 px-1 py-3">
       {/* 包在一个块中去看效果 */}
-      <section>
-        <div className="relative">
-          <Button
-            data-state={active ? "open" : "closed"}
-            onClick={() => setActive(!active)}
-          >
-            Click Me
-          </Button>
-          {active && (
-            <div
-              className={`  absolute top-12   h-[250px] w-[150px] rounded 
-        bg-slate-100 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 `}
-            ></div>
-          )}
-          {/* <div
-            className={`transition-visibility absolute top-12   h-[250px] w-[150px] rounded 
-        bg-slate-100 transition-opacity duration-500
-        ${active ? "visible opacity-100" : "invisible opacity-0"}`}
-          ></div> */}
-        </div>
+
+      <section className="content mx-auto w-[450px] max-w-2xl bg-slate-50">
+        <Card>
+          <CardHeader>
+            <CardTitle>McCoffeeTalker</CardTitle>
+            <CardDescription>3小时前</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p>Card Content</p>
+          </CardContent>
+          <CardFooter className="flex justify-between gap-3">
+            <ContentButton Icon={ThumbsUpIcon}>
+              <span>5</span>
+            </ContentButton>
+
+            <div className="flex gap-3 text-slate-400">
+              <MessageSquareIcon className="w-5 " />
+              <span>3</span>
+            </div>
+
+            <div className="flex gap-3 text-slate-400">
+              <Share2Icon className="w-5" />
+              <span>3</span>
+            </div>
+          </CardFooter>
+        </Card>
       </section>
+
+      <Button className="self-start">Hi</Button>
     </main>
   );
 }
