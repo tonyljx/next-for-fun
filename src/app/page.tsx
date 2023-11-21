@@ -1,54 +1,70 @@
 "use client";
-import ContentButton from "@/components/ui-tony/ContentButton";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
-  MessageSquareIcon,
-  Share2Icon,
-  ThumbsUp,
-  ThumbsUpIcon,
-} from "lucide-react";
+
+import FlashCard from "@/components/ui-tony/FlashCard";
+import { useEffect, useState } from "react";
+
+type imageProps = {
+  total: number;
+  total_pages: number;
+  results: {
+    // [key: string]: string;
+    alt_description: string;
+    urls: {
+      regular: string;
+      small: string;
+    };
+  }[];
+};
+
+type cardProps = {
+  alt_description: string;
+  urls: {
+    regular: string;
+    small: string;
+  };
+};
 
 export default function Home() {
+  const [photos, setPhotos] = useState<cardProps[] | undefined>();
+  const [page, setPage] = useState(1);
+  useEffect(() => {
+    const fetchPhotos = async () => {
+      const res = await fetch(
+        `https://api.unsplash.com/search/photos?page=${page}&query=office`,
+        {
+          headers: {
+            Authorization: `Client-ID ${process.env.NEXT_PUBLIC_UNSPLASH}`,
+          },
+        },
+      );
+      const resJson = (await res.json()) as imageProps;
+      // if (photos) {
+      //   setPhotos([...photos, ...resJson?.results]);
+      // } else {
+      //   setPhotos(resJson?.results);
+      // }
+      setPhotos((prev) => [...(prev || []), ...resJson?.results]);
+    };
+    fetchPhotos();
+  }, [page]);
+
+  console.log(photos);
+
   return (
     <main className="flex min-h-screen flex-col space-y-3 bg-slate-100 px-1 py-3">
       {/* 包在一个块中去看效果 */}
 
-      <section className="content mx-auto w-[450px] max-w-2xl bg-slate-50">
-        <Card>
-          <CardHeader>
-            <CardTitle>McCoffeeTalker</CardTitle>
-            <CardDescription>3小时前</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p>Card Content</p>
-          </CardContent>
-          <CardFooter className="flex justify-between gap-3">
-            <ContentButton Icon={ThumbsUpIcon}>
-              <span>5</span>
-            </ContentButton>
-
-            <div className="flex gap-3 text-slate-400">
-              <MessageSquareIcon className="w-5 " />
-              <span>3</span>
-            </div>
-
-            <div className="flex gap-3 text-slate-400">
-              <Share2Icon className="w-5" />
-              <span>3</span>
-            </div>
-          </CardFooter>
-        </Card>
+      <section className="grid grid-cols-2 gap-3 px-[10rem] md:grid-cols-3">
+        {photos?.map((item, index) => (
+          <FlashCard
+            image_url={item.urls["regular"]}
+            key={item.alt_description + index}
+            title={item.alt_description}
+            isLast={index === photos.length - 1}
+            newLimit={() => setPage(page + 1)}
+          />
+        ))}
       </section>
-
-      <Button className="self-start">Hi</Button>
     </main>
   );
 }

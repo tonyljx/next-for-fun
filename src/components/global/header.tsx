@@ -23,7 +23,7 @@ export default function Header() {
   console.log(firstPathName);
 
   return (
-    <div className=" flex items-center justify-between border-b px-4 py-2">
+    <div className="  flex items-center justify-between border-b px-4 py-2">
       <Link href="/">
         <Image
           className="dark:invert"
